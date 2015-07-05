@@ -1,0 +1,6 @@
+C:\Users\Yu\documents\visual studio 2013\Projects\VectorEditor\VectorEditor\obj\Debug\VectorEditor.csprojResolveAssemblyReference.cache
+C:\Users\Yu\documents\visual studio 2013\Projects\VectorEditor\VectorEditor\bin\VectorEditor.dll.config
+C:\Users\Yu\documents\visual studio 2013\Projects\VectorEditor\VectorEditor\bin\VectorEditor.dll
+C:\Users\Yu\documents\visual studio 2013\Projects\VectorEditor\VectorEditor\bin\VectorEditor.pdb
+C:\Users\Yu\documents\visual studio 2013\Projects\VectorEditor\VectorEditor\obj\Debug\VectorEditor.dll
+C:\Users\Yu\documents\visual studio 2013\Projects\VectorEditor\VectorEditor\obj\Debug\VectorEditor.pdb

@@ -64,12 +64,14 @@
         }
 
         private onMouseDown(event: JQueryEventObject): void {
-            this.startMouseEvent = true;
             var position = getRelativePositionToWindow(this.container),
                 x = event.clientX - position[0],
                 y = event.clientY - position[1];
             if (this.mode === "select") {
-                
+                if (event.target.tagName === "svg") {
+                    this.unSelectAll();
+                    return;
+                }
             } else {
                 var shape = createShape(this, x, y, this.mode, this.prop);
                 this.shapes.push(shape);
@@ -77,6 +79,8 @@
                 // Cache the mouse down position
                 this.onHitXy = [x, y];
             }
+
+            this.startMouseEvent = true;
         }
 
         private onMouseMove(event: JQueryEventObject): void {
@@ -97,11 +101,10 @@
             if (this.mode === "select" || this.mode === "delete") {
 
             } else {
-                this.startMouseEvent = false;
                 this.currentShape.postCreate();
                 this.currentShape = null;
             }
-            
+            this.startMouseEvent = false;
         }
 
     }

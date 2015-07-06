@@ -44,9 +44,12 @@ var VectorEditor;
             });
         };
         Editor.prototype.onMouseDown = function (event) {
-            this.startMouseEvent = true;
             var position = VectorEditor.getRelativePositionToWindow(this.container), x = event.clientX - position[0], y = event.clientY - position[1];
             if (this.mode === "select") {
+                if (event.target.tagName === "svg") {
+                    this.unSelectAll();
+                    return;
+                }
             }
             else {
                 var shape = VectorEditor.createShape(this, x, y, this.mode, this.prop);
@@ -55,6 +58,7 @@ var VectorEditor;
                 // Cache the mouse down position
                 this.onHitXy = [x, y];
             }
+            this.startMouseEvent = true;
         };
         Editor.prototype.onMouseMove = function (event) {
             if (!this.startMouseEvent) {
@@ -71,10 +75,10 @@ var VectorEditor;
             if (this.mode === "select" || this.mode === "delete") {
             }
             else {
-                this.startMouseEvent = false;
                 this.currentShape.postCreate();
                 this.currentShape = null;
             }
+            this.startMouseEvent = false;
         };
         return Editor;
     })();

@@ -27,9 +27,7 @@ module VectorEditor {
             this.shape.drag((dx: number, dy: number): any => {
                 this.shape.transform(this.currentTransformation);
                 this.shape.transform(Raphael.format("...T{0}, {1}", dx, dy));
-                // Update the tracker as well
-                this.trackerSet.transform(this.currentTransformation);
-                this.trackerSet.transform(Raphael.format("...T{0}, {1}", dx, dy));
+                this.syncTracker();
             }, (): any => {
                 // TODO: here we have to call a function in the parent container
                 // Figure out a better way to do this
@@ -59,18 +57,21 @@ module VectorEditor {
 
             // Add drag event listeners to scale tracker
             this.trackerSet[2].drag((dx: number, dy: number): any => {
-                var scaleX = (this.currentWidth + dx) / this.currentWidth,
-                    scaleY = (this.currentHeight + dy) / this.currentHeight;
-                console.log(this.originX, this.originY, scaleX, scaleY);
-                this.shape.transform(this.currentTransformation);
-                this.shape.transform(Raphael.format("...S{0}, {1}, {2} {3}", scaleX, scaleY, this.originX, this.originY));
+                if (this.editor.mode !== "select") {
+                    return;
+                }
+                if (this.currentWidth + dx < 0 || this.currentHeight + dy) {
+                    return;
+                }
+                this.shape.attr("width", this.currentWidth + dx);
+                this.shape.attr("height", this.currentHeight + dy);
                 // Update the tracker as well
-                this.trackerSet.transform(this.currentTransformation);
-                this.trackerSet[0].transform(Raphael.format("...S{0}, {1}, {2} {3}", scaleX, scaleY, this.originX, this.originY));
+                this.syncTracker();
             }, (): any => {
-                var box = this.shape.getBBox();
-                this.originX = (box.x + box.x2) / 2;
-                this.originY = (box.y + box.y2) / 2;
+                if (this.editor.mode !== "select") {
+                    return;
+                }
+                var box = this.shape.getBBox(true);
                 this.currentWidth = box.width;
                 this.currentHeight = box.height;
                 this.currentTransformation = this.shape.transform();
@@ -110,6 +111,27 @@ module VectorEditor {
 
         hideTracker(): void {
             this.trackerSet.hide();
+        }
+
+        syncTracker(): void {
+            var matrix = this.shape.matrix.split(),
+                box = this.shape.getBBox();
+            // transform the body rectangle
+            //this.trackerSet[0].transform(Raphael.format("t{0},{1}", matrix.dx, matrix.dy));
+            //this.trackerSet[1].transform(Raphael.format("t{0},{1}", matrix.dx, matrix.dy));
+            //this.trackerSet[2].transform(Raphael.format("t{0},{1}", matrix.dx, matrix.dy));
+             
+            this.trackerSet[0].transform(Raphael.format("t{0},{1}", matrix.dx, matrix.dy));
+
+
+            this.trackerSet[0].attr("width", this.shape.attr("width") + 2 * this.offset);
+            this.trackerSet[0].attr("height", this.shape.attr("height") + 2 * this.offset);
+            this.trackerSet[1].attr("cx", (box.x + box.x2) / 2);
+            this.trackerSet[1].attr("cy", box.y - this.offset * 3);
+            this.trackerSet[2].attr("x", box.x2 + this.offset / 2);
+            this.trackerSet[2].attr("y", box.y2 + this.offset / 2);
+
+
         }
 
     }

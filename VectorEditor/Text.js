@@ -1,12 +1,12 @@
 /// <reference path="VectorEditor.ts"/>
 var VectorEditor;
 (function (VectorEditor) {
-    var Rect = (function () {
-        function Rect(editor, x, y, prop) {
+    var Text = (function () {
+        function Text(editor, x, y, prop) {
             var _this = this;
             this.editor = editor;
             this.paper = editor.paper;
-            this.shape = this.paper.rect(x, y, 0, 0);
+            this.shape = this.paper.text(x, y, prop.text);
             this.shape.attr(prop);
             this.shape.id = Raphael.createUUID();
             this.offset = 5;
@@ -29,7 +29,7 @@ var VectorEditor;
                 _this.currentTransformation = _this.shape.transform();
             }, function () { });
         }
-        Rect.prototype.addTracker = function () {
+        Text.prototype.addTracker = function () {
             var _this = this;
             var box = this.shape.getBBox();
             this.trackerSet = this.paper.set();
@@ -55,14 +55,13 @@ var VectorEditor;
             });
             this.trackerSet.hide();
         };
-        Rect.prototype.resize = function (width, height) {
+        Text.prototype.resize = function (width, height) {
             if (width < 0 || height < 0) {
                 return;
             }
-            this.shape.attr("width", width);
-            this.shape.attr("height", height);
+            this.shape.attr("font-size", Math.sqrt((height * height) + (width * width)));
         };
-        Rect.prototype.postCreate = function () {
+        Text.prototype.postCreate = function () {
             var box = this.shape.getBBox();
             if (box.width === 0 || box.height === 0) {
                 this.shape.remove();
@@ -71,23 +70,23 @@ var VectorEditor;
                 this.addTracker();
             }
         };
-        Rect.prototype.remove = function () {
+        Text.prototype.remove = function () {
             this.shape.remove();
         };
-        Rect.prototype.showTracker = function () {
+        Text.prototype.showTracker = function () {
             this.trackerSet.show();
             // Make sure the shape is on top of the trackerSet
             this.trackerSet.toFront();
             this.shape.toFront();
         };
-        Rect.prototype.hideTracker = function () {
+        Text.prototype.hideTracker = function () {
             this.trackerSet.hide();
         };
-        Rect.prototype.syncTracker = function () {
+        Text.prototype.syncTracker = function () {
             this.trackerSet.transform(this.shape.transform());
         };
-        return Rect;
+        return Text;
     })();
-    VectorEditor.Rect = Rect;
+    VectorEditor.Text = Text;
 })(VectorEditor || (VectorEditor = {}));
-//# sourceMappingURL=Rect.js.map
+//# sourceMappingURL=Text.js.map

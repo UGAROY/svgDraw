@@ -24,7 +24,7 @@
                 "fill": "#000000",
                 "stroke-opacity": 1,
                 "fill-opacity": 1,
-                "text": Text
+                "text": "text"
             }
             
             this.mode = "select";

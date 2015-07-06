@@ -10,7 +10,7 @@ var VectorEditor;
                 "fill": "#000000",
                 "stroke-opacity": 1,
                 "fill-opacity": 1,
-                "text": Text
+                "text": "text"
             };
             this.mode = "select";
             this.action = "";
@@ -84,4 +84,4 @@ var VectorEditor;
     })();
     VectorEditor.Editor = Editor;
 })(VectorEditor || (VectorEditor = {}));
-//# sourceMappingURL=editor.js.map
+//# sourceMappingURL=Editor.js.map

@@ -1,12 +1,12 @@
 /// <reference path="VectorEditor.ts"/>
 var VectorEditor;
 (function (VectorEditor) {
-    var Rect = (function () {
-        function Rect(editor, x, y, prop) {
+    var Ellipse = (function () {
+        function Ellipse(editor, x, y, prop) {
             var _this = this;
             this.editor = editor;
             this.paper = editor.paper;
-            this.shape = this.paper.rect(x, y, 0, 0);
+            this.shape = this.paper.ellipse(x, y, 0, 0);
             this.shape.attr(prop);
             this.shape.id = Raphael.createUUID();
             this.offset = 5;
@@ -29,13 +29,12 @@ var VectorEditor;
                 _this.currentTransformation = _this.shape.transform();
             }, function () { });
         }
-        Rect.prototype.addTracker = function () {
+        Ellipse.prototype.addTracker = function () {
             var _this = this;
             var box = this.shape.getBBox();
             this.trackerSet = this.paper.set();
             this.trackerSet.push(this.paper.rect(box.x - this.offset, box.y - this.offset, box.width + 2 * this.offset, box.height + 2 * this.offset), this.paper.circle((box.x + box.x2) / 2, box.y - this.offset * 3, 5));
             this.trackerSet[1].attr("fill", "#FFFFFF");
-            this.trackerSet.attr("stroke-dasharray", "-");
             // Add event handlers
             this.trackerSet[1].mouseover(function () { this.attr("fill", "red"); });
             this.trackerSet[1].mouseout(function () { this.attr("fill", "white"); });
@@ -55,14 +54,14 @@ var VectorEditor;
             });
             this.trackerSet.hide();
         };
-        Rect.prototype.resize = function (width, height) {
+        Ellipse.prototype.resize = function (width, height) {
             if (width < 0 || height < 0) {
                 return;
             }
             this.shape.attr("width", width);
             this.shape.attr("height", height);
         };
-        Rect.prototype.postCreate = function () {
+        Ellipse.prototype.postCreate = function () {
             var box = this.shape.getBBox();
             if (box.width === 0 || box.height === 0) {
                 this.shape.remove();
@@ -71,23 +70,23 @@ var VectorEditor;
                 this.addTracker();
             }
         };
-        Rect.prototype.remove = function () {
+        Ellipse.prototype.remove = function () {
             this.shape.remove();
         };
-        Rect.prototype.showTracker = function () {
+        Ellipse.prototype.showTracker = function () {
             this.trackerSet.show();
             // Make sure the shape is on top of the trackerSet
             this.trackerSet.toFront();
             this.shape.toFront();
         };
-        Rect.prototype.hideTracker = function () {
+        Ellipse.prototype.hideTracker = function () {
             this.trackerSet.hide();
         };
-        Rect.prototype.syncTracker = function () {
+        Ellipse.prototype.syncTracker = function () {
             this.trackerSet.transform(this.shape.transform());
         };
-        return Rect;
+        return Ellipse;
     })();
-    VectorEditor.Rect = Rect;
+    VectorEditor.Ellipse = Ellipse;
 })(VectorEditor || (VectorEditor = {}));
-//# sourceMappingURL=Rect.js.map
+//# sourceMappingURL=circle.js.map

@@ -29,8 +29,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="editor.ts" />
-    <TypeScriptCompile Include="rect.ts" />
+    <TypeScriptCompile Include="BaseShape.ts" />
+    <TypeScriptCompile Include="Ellipse.ts" />
+    <TypeScriptCompile Include="Editor.ts" />
+    <TypeScriptCompile Include="Line.ts" />
+    <TypeScriptCompile Include="Path.ts" />
+    <TypeScriptCompile Include="Rect.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\raphael\raphael.d.ts" />
     <TypeScriptCompile Include="shapeFactory.ts" />

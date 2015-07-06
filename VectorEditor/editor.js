@@ -57,8 +57,8 @@ var VectorEditor;
                 this.currentShape = shape;
                 // Cache the mouse down position
                 this.onHitXy = [x, y];
+                this.startMouseEvent = true;
             }
-            this.startMouseEvent = true;
         };
         Editor.prototype.onMouseMove = function (event) {
             if (!this.startMouseEvent) {
@@ -77,8 +77,8 @@ var VectorEditor;
             else {
                 this.currentShape.postCreate();
                 this.currentShape = null;
+                this.startMouseEvent = false;
             }
-            this.startMouseEvent = false;
         };
         return Editor;
     })();
